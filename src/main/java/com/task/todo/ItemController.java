@@ -1,18 +1,25 @@
 package com.task.todo;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
+@RequestMapping("/api")
 public class ItemController {
     @Autowired
     private ItemRepository repository;
@@ -21,16 +28,16 @@ public class ItemController {
 
 
     /** Service to add an item **/
-    @PostMapping("/items")
-    public ResponseEntity<?> addItem(@RequestBody Item newItem) {
+    @PostMapping("/item")
+    public ResponseEntity<?> addItem(@Valid @RequestBody Item newItem) {
         EntityModel<Item> entityModel=assembler.toModel( repository.save(newItem));
         return  ResponseEntity //Additionally, return the model-based version of the saved object.
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
                 .body(entityModel);
     }
     /** Service change description of an item **/
-    @PutMapping("/items/description/{id}")
-    public ResponseEntity<?> changeDescription(@PathVariable Long id,@RequestParam String description) {
+    @PutMapping("/item/description/{id}")
+    public ResponseEntity<?> changeDescription(@PathVariable Long id, @RequestParam String description) {
         Item updateditem = repository.findById(id)
                 .map(item -> {
                     item.setDescription(description);
@@ -42,7 +49,7 @@ public class ItemController {
                 .body(entityModel);
     }
     /** Service mark an item as "done" **/
-    @PutMapping("/items/done/{id}")
+    @PutMapping("/item/done/{id}")
     public ResponseEntity<?> markAsDone(@PathVariable Long id) {
         Item updateditem = repository.findById(id)
                 .map(item -> {
@@ -55,7 +62,7 @@ public class ItemController {
                 .body(entityModel);
     }
     /** Service mark an item as "not done" **/
-    @PutMapping("/items/not_done/{id}")
+    @PutMapping("/item/not_done/{id}")
     public ResponseEntity<?> markAsNotDone(@PathVariable Long id) {
         Item updatedItem = repository.findById(id)
                 .map(item -> {
@@ -83,7 +90,7 @@ public class ItemController {
         return CollectionModel.of(items, linkTo(methodOn(ItemController.class).allNotDone(showAll)).withSelfRel());
     }
     /**Service to get details of a specific item.**/
-    @GetMapping("/items/{id}")
+    @GetMapping("/item/{id}")
     public	EntityModel<Item> getDetails(@PathVariable Long id) {
         Item item = repository.findById(id)//
                 .orElseThrow(() -> new ItemNotFoundException(id));

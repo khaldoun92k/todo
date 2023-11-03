@@ -4,16 +4,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
+
+
 @Entity
+@Validated
 public class Item {
     @Id
     @GeneratedValue
     private Long Id;
-    @NotNull(message = "Description is required")
+    @NotBlank(message = "Description is required")
     private String description;
     private TaskStatus status = TaskStatus.NOT_DONE;
     @JsonFormat(pattern="dd.MM.yyyy HH:mm:ss")

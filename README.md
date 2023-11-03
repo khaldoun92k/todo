@@ -12,14 +12,14 @@ The purpose of this project a backend service allowing basic management of a sim
 # Services
 List of RESTful APIs
 
-| URL                     | Type | usage                                                                     |
-|-------------------------|------|---------------------------------------------------------------------------|
-| /items                  | POST | add an item.                                                              |
-| /items/description/{id} | PUT  | change description of an item.                                            |
-| /items/done/{id}        | PUT  | mark an item as "done".                                                   |
-| /items/not_done/{id}    | PUT  | mark an item as "not done".                                               |
-| /items                  | GET  | get all items that are "not done" (with an option to retrieve all items). |
-| /items                  | GET  | get details of a specific item.                                           |
+| URL                        | Type | usage                                                                     |
+|----------------------------|------|---------------------------------------------------------------------------|
+| /api/item                  | POST | Add an item.                                                              |
+| /api/item/description/{id} | PUT  | Change description of an item.                                            |
+| /api/item/done/{id}        | PUT  | Mark an item as "done".                                                   |
+| /api/item/not_done/{id}    | PUT  | Mark an item as "not done".                                               |
+| /api/items                 | GET  | Get all items that are "not done" (with an option to retrieve all items). |
+| /api/item                  | GET  | Get details of a specific item.                                           |
 # User instruction
 TODO...
 # Notes
